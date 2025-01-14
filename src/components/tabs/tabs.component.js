@@ -127,7 +127,7 @@ class Tabs extends Component {
           height: 100%;
           right: 100%;
           background: ${CONFIG.palette.base} url("../img/bg-1.gif") repeat left;
-          transition: all .5s;
+          transition: all .3s;
           # animation: scroll 25s ease-in-out infinite;
       }
 
@@ -185,7 +185,7 @@ class Tabs extends Component {
           text-decoration: none;
           font: 700 18px JetBrainsMono Nerd Font;
           src: url(../fonts/jetbrains-mono.ttf);
-          transition: all .2s;
+          transition: all .1s;
           display: inline-flex;
           align-items: center;
           padding: .4em .7em;

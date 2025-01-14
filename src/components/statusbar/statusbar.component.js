@@ -85,7 +85,7 @@ class Statusbar extends Component {
           height: 3px;
           background: var(--flavour);
           bottom: 0;
-          transition: all .3s;
+          transition: all .2s;
       }
 
       #tabs ul li[active]:not(:last-child) {
