@@ -48,7 +48,7 @@ class Weather extends Component {
   }
 
   imports() {
-    return [this.resources.icons.material, this.resources.fonts.roboto];
+    return [this.resources.icons.material];
   }
 
   style() {
@@ -61,17 +61,14 @@ class Weather extends Component {
       }
 
       .weather-temperature {
-          font: 300 9pt 'Roboto', sans-serif;
+          font: 300 9pt JetBrainsMono Nerd Font;
+          src: url(../fonts/jetbrains-mono.ttf);
           color: ${CONFIG.palette.text};
           white-space: nowrap;
           display: flex;
           align-items: center;
           justify-content: center;
           height: 100%;
-      }
-
-      .weather-temperature:hover .weather-temperature-location {
-          display: inline-block;
       }
 
       .weather-temperature-location {

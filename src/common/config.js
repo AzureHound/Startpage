@@ -1,41 +1,29 @@
 class Config {
-  // Default configuration values for the startpage. These can be overridden by user configuration or local storage.
   defaults = {
     overrideStorage: false,
     temperature: {
-      location: "London",
+      location: "Alicante",
       scale: "C",
     },
     clock: {
       format: "h:i p",
     },
-    search: {
-      engines: {
-        d: ["https://duckduckgo.com/?q=", "DuckDuckGo"],
-        g: ["https://google.com/search?q=", "Google"],
-      }
-    },
     disabled: [],
     openLastVisitedTab: false,
     tabs: [],
-    keybindings: {
-      "s": "search-bar",
-    }
   };
 
   config;
 
-  constructor(configuration, palette) {
-    // Store the user configuration and palette for the startpage.
-    this.config = configuration;
+  constructor(config, palette) {
+    this.config = config;
     this.palette = palette;
-    this.storage = new Storage("configuration");
+    this.storage = new Storage("config");
 
     this.autoConfig();
     this.setKeybindings();
     this.save();
 
-    // Use a Proxy to automatically persist configuration changes.
     return new Proxy(this, {
       ...this,
       __proto__: this.__proto__,
@@ -44,7 +32,7 @@ class Config {
   }
 
   /**
-   * Automatically save whenever a configuration property is updated.
+   * Automatically save whenever a config property is updated.
    * @returns {void}
    */
   settingUpdatedCallback(target, prop, val) {
@@ -59,7 +47,7 @@ class Config {
   }
 
   /**
-   * Set default configuration values or load them from local storage.
+   * Set default config values or load them from the local storage.
    * @returns {void}
    */
   autoConfig() {
@@ -71,16 +59,16 @@ class Config {
   }
 
   /**
-   * Determines whether localStorage can be overridden for a given setting.
+   * Determines whether the localStorage can be overridden.
    * If the setting is for the tabs section, always override.
-   * @returns {boolean}
+   * @returns {bool}
    */
   canOverrideStorage(setting) {
     return setting in this.config && (this.config.overrideStorage || setting === "tabs");
   }
 
   /**
-   * Serialise the configuration object for export or storage.
+   * Deserialize the configuration object.
    * @returns {Object}
    */
   toJSON() {
@@ -91,7 +79,7 @@ class Config {
   }
 
   /**
-   * Set up keybinding actions for the startpage.
+   * Trigger keybinding actions.
    * @returns {void}
    */
   setKeybindings() {
@@ -102,24 +90,7 @@ class Config {
     };
   }
 
-  /**
-   * Persist the current configuration to local storage.
-   */
   save() {
     this.storage.save(stringify(this));
-  }
-
-  /**
-   * Export the current configuration as a downloadable file.
-   */
-  exportSettings() {
-    const anchor = document.createElement('a');
-    const filename = 'dawn.configuration.json';
-    const mimeType = 'data:text/plain;charset=utf-8,';
-
-    anchor.href = mimeType + encodeURIComponent(stringify(this, null, 2));
-    anchor.download = filename;
-
-    anchor.click();
   }
 }

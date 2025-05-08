@@ -1,13 +1,10 @@
 const RenderedComponents = {};
 
-// Base class for all startpage components, providing shadow DOM, resource management, and rendering utilities.
-// Glossary: Component, Resource, Shadow DOM
 class Component extends HTMLElement {
   refs = {};
 
   resources = {
     fonts: {
-      roboto: '<link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700" rel="stylesheet">',
       nunito: '<link href="https://fonts.googleapis.com/css?family=Nunito:200" rel="stylesheet">',
       raleway: '<link href="https://fonts.googleapis.com/css?family=Raleway:600" rel="stylesheet">',
     },
@@ -43,8 +40,8 @@ class Component extends HTMLElement {
   }
 
   /**
-   * Reference an external CSS file for the component.
-   * Note: External style loading is not fully supported with web components and may cause flickering.
+   * Reference an external CSS file.
+   * OBS: External style loading not yet fully supported with web components, causes flickering.
    * @param {string} path
    * @returns {void}
    */
@@ -85,7 +82,7 @@ class Component extends HTMLElement {
   }
 
   /**
-   * Create a reference proxy for manipulating DOM elements within the component's shadow DOM.
+   * Create a reference for manipulating DOM elements.
    * @returns {Proxy<HTMLElement | boolean>}
    */
   createRef() {
@@ -109,10 +106,6 @@ class Component extends HTMLElement {
     });
   }
 
-  /**
-   * Render the component's HTML and update references.
-   * @returns {Promise<void>}
-   */
   async render() {
     this.shadow.innerHTML = await this.buildHTML();
     this.refs = this.createRef();

@@ -4,15 +4,13 @@
 +----------+
 Author: https://github.com/b-coimbra
 Description:
-A simple strftime function implementation in JavaScript, without the percentage notation.
-Based on https://strftime.org
+silly strftime function implementation in js without the percentage notation.
+based off https://strftime.org
 
 USAGE:
 new Date().strftime("H:M p - A") => 21:32 AM - Thursday
 new Date().strftime("m/b/Y")     => 1/Jan/2018
 new Date().strftime("do B Y")    => 18th January 2018
-
-This function extends Date.prototype and provides flexible date formatting for the startpage.
 */
 
 Date.prototype.strftime = function (format = "c") {
@@ -37,19 +35,19 @@ Date.prototype.strftime = function (format = "c") {
   };
 
   const month = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ],
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ],
     days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
     result = [],
     formats = {

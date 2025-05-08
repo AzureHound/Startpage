@@ -23,7 +23,7 @@ class Statusbar extends Component {
   }
 
   imports() {
-    return [this.resources.fonts.roboto, this.resources.icons.material, this.resources.libs.awoo];
+    return [this.resources.icons.material, this.resources.libs.awoo];
   }
 
   style() {
@@ -46,7 +46,7 @@ class Statusbar extends Component {
           height: 100%;
           position: relative;
           list-style: none;
-          margin-left: 1em;
+          margin-left: 5px;
       }
 
       #tabs ul li:not(:last-child)::after {
@@ -64,8 +64,9 @@ class Statusbar extends Component {
       #tabs ul li:not(:last-child) {
           width: 35px;
           text-align: center;
-          font: 700 13px 'Yu Gothic', serif;
-          color: ${CONFIG.palette.text};
+          font: 700 14px JetBrainsMono Nerd Font;
+          src: url(../fonts/jetbrains-mono.ttf);
+          color: ${CONFIG.palette.overlay0};
           padding: 6px 0;
           transition: all .1s;
           cursor: pointer;
@@ -74,6 +75,7 @@ class Statusbar extends Component {
       }
 
       #tabs ul li:not(:last-child):hover {
+          border-radius: 10px;
           background: ${CONFIG.palette.surface0};
       }
 
@@ -83,7 +85,7 @@ class Statusbar extends Component {
           height: 3px;
           background: var(--flavour);
           bottom: 0;
-          transition: all .3s;
+          transition: all .2s;
       }
 
       #tabs ul li[active]:not(:last-child) {
@@ -96,25 +98,30 @@ class Statusbar extends Component {
       #tabs ul li[active]:nth-child(3) ~ li:last-child { margin: 0 0 0 70px; }
       #tabs ul li[active]:nth-child(4) ~ li:last-child { margin: 0 0 0 105px; }
       #tabs ul li[active]:nth-child(5) ~ li:last-child { margin: 0 0 0 140px; }
+      #tabs ul li[active]:nth-child(6) ~ li:last-child { margin: 0 0 0 175px; }
 
       #tabs ul li[active]:nth-child(1) ~ li:last-child {
-          --flavour: ${CONFIG.palette.green};
+          --flavour: ${CONFIG.palette.lavender};
       }
 
       #tabs ul li[active]:nth-child(2) ~ li:last-child {
-          --flavour: ${CONFIG.palette.peach};
+          --flavour: ${CONFIG.palette.mauve};
       }
 
       #tabs ul li[active]:nth-child(3) ~ li:last-child {
-          --flavour: ${CONFIG.palette.red};
+          --flavour: ${CONFIG.palette.peach};
       }
 
       #tabs ul li[active]:nth-child(4) ~ li:last-child {
-          --flavour: ${CONFIG.palette.blue};
+          --flavour: ${CONFIG.palette.rosewater};
       }
 
       #tabs ul li[active]:nth-child(5) ~ li:last-child {
-          --flavour: ${CONFIG.palette.mauve};
+          --flavour: ${CONFIG.palette.pink};
+      }
+
+      #tabs ul li[active]:nth-child(6) ~ li:last-child {
+          --flavour: ${CONFIG.palette.blue};
       }
 
       .widgets {
@@ -145,6 +152,7 @@ class Statusbar extends Component {
 
       .widget:hover {
           cursor: pointer;
+          border-radius: 10px;
           background: rgba(255, 255, 255, .05);
       }
 
@@ -176,7 +184,7 @@ class Statusbar extends Component {
           background: ${CONFIG.palette.mantle};
           color: ${CONFIG.palette.green};
           cursor: pointer;
-          border-radius: 5px 15px 15px 5px;
+          border-radius: 10px;
       }
 
       .fastlink:hover {
@@ -184,7 +192,7 @@ class Statusbar extends Component {
       }
 
       .fastlink-icon {
-        width: 70%;
+        width: 50%;
       }
     `;
   }
@@ -194,7 +202,7 @@ class Statusbar extends Component {
         <div id="tabs">
             <cols>
                 <button class="+ fastlink">
-                  <img class="fastlink-icon" src="src/img/favicon.png"/>
+                  <img class="fastlink-icon" src="src/img/logo.png"/>
                 </button>
                 <ul class="- indicator"></ul>
                 <div class="+ widgets col-end">
@@ -242,14 +250,9 @@ class Statusbar extends Component {
 
     if (target.shadow && target.shadow.activeElement) return;
 
-    let activeTab = -1;
-    this.refs.tabs.forEach((tab, index) => {
-      if (tab.getAttribute("active") === "") {
-        activeTab = index;
-      }
-    });
+    let activeTab = this.getActiveTab();
 
-    if (wheelDelta > 0) {
+    if (wheelDelta < 0) {
       this.activateByKey((activeTab + 1) % (this.refs.tabs.length - 1));
     } else {
       this.activateByKey(activeTab - 1 < 0 ? this.refs.tabs.length - 2 : activeTab - 1);
@@ -265,6 +268,15 @@ class Statusbar extends Component {
 
     if (Number.isInteger(parseInt(key)) && key <= this.externalRefs.categories.length) {
       this.activateByKey(key - 1);
+    }
+
+    let activeTab = this.getActiveTab();
+    key = key.toLowerCase();
+
+    if (key === "arrowright" || key === "l") {
+      this.activateByKey((activeTab + 1) % (this.refs.tabs.length - 1));
+    } else if (key === "arrowleft" || key === "h") {
+      this.activateByKey(activeTab - 1 < 0 ? this.refs.tabs.length - 2 : activeTab - 1);
     }
   }
 
@@ -295,5 +307,15 @@ class Statusbar extends Component {
       this.setEvents();
       this.openLastVisitedTab();
     });
+  }
+
+  getActiveTab() {
+    let activeTab = -1;
+    this.refs.tabs.forEach((tab, index) => {
+      if (tab.getAttribute("active") === "") {
+        activeTab = index;
+      }
+    });
+    return activeTab;
   }
 }

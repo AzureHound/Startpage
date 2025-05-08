@@ -23,16 +23,16 @@ class Links extends Component {
             <h1>${name}</h1>
               <div class="links-wrapper">
               ${links
-              .map(
-                (link) => `
+                .map(
+                  (link) => `
                   <div class="link-info">
-                    <a href="${link.url}" target="_blank">
+                    <a href="${link.url}">
                       ${Links.getIcon(link)}
                       ${link.name ? `<p class="link-name">${link.name}</p>` : ""}
                     </a>
                 </div>`,
-              )
-              .join("")}
+                )
+                .join("")}
             </div>
           </li>`;
         })
@@ -47,7 +47,7 @@ class Category extends Component {
   }
 
   static getBackgroundStyle(url) {
-    return `style="background-image: url(${url}); background-repeat: no-repeat;background-size: contain;"`;
+    return `style="background: url(${url}) no-repeat; background-size: contain;"`;
   }
 
   static getAll(tabs) {
@@ -55,7 +55,6 @@ class Category extends Component {
       ${tabs
         .map(({ name, background_url }, index) => {
           return `<ul class="${name}" ${Category.getBackgroundStyle(background_url)} ${index == 0 ? "active" : ""}>
-            <div class="banner"></div>
             <div class="links">${Links.getAll(name, tabs)}</div>
           </ul>`;
         })
@@ -76,7 +75,6 @@ class Tabs extends Component {
     return [
       this.resources.icons.material,
       this.resources.icons.tabler,
-      this.resources.fonts.roboto,
       this.resources.fonts.raleway,
       this.resources.libs.awoo,
     ];
@@ -85,11 +83,11 @@ class Tabs extends Component {
   style() {
     return `
       status-bar {
-          bottom: -70px;
+          bottom: -50px;
           height: 32px;
           background: ${CONFIG.palette.base};
-          border-radius: 4px;
-          box-shadow: 0 10px 20px rgba(0, 0, 0, .25);
+          border-radius: 10px;
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.50);
       }
 
       #panels, #panels ul,
@@ -98,20 +96,19 @@ class Tabs extends Component {
       }
 
       .nav {
-          color: #fff;
+          color: #cad3f5;
       }
 
       #panels {
-          border-radius: 5px 0 0 5px;
+          border-radius: 10px;
           width: 90%;
-          max-width: 1200px;
-          height: 450px;
+          height: 75%;
           right: 0;
           left: 0;
           top: 0;
           bottom: 0;
           margin: auto;
-          box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.50);
           background: ${CONFIG.palette.base};
       }
 
@@ -120,17 +117,17 @@ class Tabs extends Component {
           height: 100%;
           overflow: hidden;
           position: relative;
-          border-radius: 10px 0 0 10px;
+          border-radius: 10px;
       }
 
       .categories ul {
           --panelbg: transparent;
           --flavour: var(--accent);
-          width: 100%;
+          width: 106%;
           height: 100%;
           right: 100%;
           background: ${CONFIG.palette.base} url("../img/bg-1.gif") repeat left;
-          transition: all .6s;
+          transition: all .3s;
           # animation: scroll 25s ease-in-out infinite;
       }
 
@@ -141,26 +138,27 @@ class Tabs extends Component {
       }
 
       .categories ul:nth-child(1) {
-          --flavour: ${CONFIG.palette.green};
+          --flavour: ${CONFIG.palette.lavender};
       }
 
       .categories ul:nth-child(2) {
-          --flavour: ${CONFIG.palette.peach};
-      }
-
-      .categories ul:nth-child(3) {
-          --flavour: ${CONFIG.palette.red};
-      }
-
-      .categories ul:nth-child(4) {
-          --flavour: ${CONFIG.palette.blue};
-      }
-      .categories ul:nth-child(5) {
           --flavour: ${CONFIG.palette.mauve};
       }
 
-      .categories ul .links {
-          box-shadow: inset -1px 0 var(--flavour);
+      .categories ul:nth-child(3) {
+          --flavour: ${CONFIG.palette.peach};
+      }
+
+      .categories ul:nth-child(4) {
+          --flavour: ${CONFIG.palette.rosewater};
+      }
+
+      .categories ul:nth-child(5) {
+          --flavour: ${CONFIG.palette.pink};
+
+      }
+      .categories ul:nth-child(6) {
+          --flavour: ${CONFIG.palette.blue};
       }
 
       .categories ul[active] {
@@ -173,8 +171,9 @@ class Tabs extends Component {
           width: 70%;
           height: 100%;
           background: ${CONFIG.palette.base};
-          padding: 5%;
+          padding: 2%;
           flex-wrap: wrap;
+          box-sizing: content-box;
       }
 
       .categories .links li {
@@ -184,14 +183,15 @@ class Tabs extends Component {
       .categories ul .links a {
           color: ${CONFIG.palette.text};
           text-decoration: none;
-          font: 700 18px 'Roboto', sans-serif;
-          transition: all .2s;
+          font: 700 18px JetBrainsMono Nerd Font;
+          src: url(../fonts/jetbrains-mono.ttf);
+          transition: all .1s;
           display: inline-flex;
           align-items: center;
           padding: .4em .7em;
           background: ${CONFIG.palette.mantle};
-          box-shadow: 0 4px ${CONFIG.palette.mantle}, 0 5px 10px rgb(0 0 0 / 20%);
-          border-radius: 2px;
+          box-shadow: 0 4px ${CONFIG.palette.mantle}, 0 5px 10px rgb(0 0 0 / 40%);
+          border-radius: 10px;
           margin-bottom: .7em;
       }
 
@@ -217,7 +217,8 @@ class Tabs extends Component {
           height: 250px;
           padding: 1em;
           margin: auto;
-          border-radius: 5px;
+          margin-left: 20px;
+          border-radius: 10px;
           box-shadow: inset 0 0 0 2px var(--flavour);
           left: calc(15% - 42.5px);
           bottom: 0;
@@ -225,29 +226,31 @@ class Tabs extends Component {
           background: linear-gradient(to top, rgb(50 48 47 / 90%), transparent);
           color: var(--flavour);
           letter-spacing: 1px;
-          font: 500 30px 'Nunito', sans-serif;
+          font: 700 24px JetBrainsMono Nerd Font;
+          src: url(../fonts/jetbrains-mono.ttf);
           text-align: center;
           flex-wrap: wrap;
           word-break: break-all;
           align-items: center;
-          backdrop-filter: blur(3px);
+          backdrop-filter: blur(10px);
       }
 
       .categories .links li:not(:last-child) {
-          box-shadow: 0 1px 0 ${CONFIG.palette.text};
+          box-shadow: 0 2.5px 0 ${CONFIG.palette.surface0};
           padding: 0 0 .5em 0;
           margin-bottom: 1.5em;
       }
 
       .categories .links li h1 {
           color: ${CONFIG.palette.text};
-        opacity: 0.5;
+          opacity: 0.5;
           font-size: 13px;
           margin-bottom: 1em;
           font-weight: 600;
           letter-spacing: 1px;
           text-transform: uppercase;
-          font-family: 'Raleway', sans-serif;
+          font: 700 14px JetBrainsMono Nerd Font;
+          src: url(../fonts/jetbrains-mono.ttf);
       }
 
       .categories .link-icon {
@@ -290,7 +293,6 @@ class Tabs extends Component {
         <div id="panels">
           <div class="categories">
             ${Category.getAll(this.tabs)}
-            <search-bar></search-bar>
           </div>
           <status-bar class="!-"></status-bar>
         </div>
