@@ -1,10 +1,6 @@
-
-// Statusbar component for tab navigation and widgets
 class Statusbar extends Component {
-  // External DOM element references
   externalRefs = {};
 
-  // CSS selector references for DOM elements
   refs = {
     categories: ".categories ul",
     tabs: "#tabs ul li",
@@ -12,39 +8,24 @@ class Statusbar extends Component {
     fastlink: ".fastlink",
   };
 
-  // Currently active tab index
   currentTabIndex = 0;
 
-  /**
-   * Initialise the statusbar component
-   */
   constructor() {
     super();
 
     this.setDependencies();
   }
 
-  /**
-   * Sets up component dependencies and external references
-   */
   setDependencies() {
     this.externalRefs = {
       categories: this.parentNode.querySelectorAll(this.refs.categories),
     };
   }
 
-  /**
-   * Returns CSS import dependencies for this component
-   * @returns {string[]} Array of CSS file paths
-   */
   imports() {
-    return [this.getFontResource('roboto'), this.getIconResource('material'), this.getLibraryResource('awoo')];
+    return [this.resources.icons.material, this.resources.libs.awoo];
   }
 
-  /**
-   * Generates component CSS styles
-   * @returns {string} CSS styles for the statusbar
-   */
   style() {
     return `
       *:not(:defined) { display: none; }
@@ -65,7 +46,7 @@ class Statusbar extends Component {
           height: 100%;
           position: relative;
           list-style: none;
-          margin-left: 1em;
+          margin-left: 5px;
       }
 
       #tabs ul li:not(:last-child)::after {
@@ -83,8 +64,9 @@ class Statusbar extends Component {
       #tabs ul li:not(:last-child) {
           width: 35px;
           text-align: center;
-          font: 700 13px 'Yu Gothic', serif;
-          color: ${CONFIG.palette.text};
+          font: 700 14px JetBrainsMono Nerd Font;
+          src: url(../fonts/jetbrains-mono.ttf);
+          color: ${CONFIG.palette.overlay0};
           padding: 6px 0;
           transition: all .1s;
           cursor: pointer;
@@ -93,6 +75,7 @@ class Statusbar extends Component {
       }
 
       #tabs ul li:not(:last-child):hover {
+          border-radius: 10px;
           background: ${CONFIG.palette.surface0};
       }
 
@@ -102,7 +85,7 @@ class Statusbar extends Component {
           height: 3px;
           background: var(--flavour);
           bottom: 0;
-          transition: all .3s;
+          transition: all .2s;
       }
 
       #tabs ul li[active]:not(:last-child) {
@@ -115,25 +98,30 @@ class Statusbar extends Component {
       #tabs ul li[active]:nth-child(3) ~ li:last-child { margin: 0 0 0 70px; }
       #tabs ul li[active]:nth-child(4) ~ li:last-child { margin: 0 0 0 105px; }
       #tabs ul li[active]:nth-child(5) ~ li:last-child { margin: 0 0 0 140px; }
+      #tabs ul li[active]:nth-child(6) ~ li:last-child { margin: 0 0 0 175px; }
 
       #tabs ul li[active]:nth-child(1) ~ li:last-child {
-          --flavour: ${CONFIG.palette.green};
+          --flavour: ${CONFIG.palette.lavender};
       }
 
       #tabs ul li[active]:nth-child(2) ~ li:last-child {
-          --flavour: ${CONFIG.palette.peach};
+          --flavour: ${CONFIG.palette.mauve};
       }
 
       #tabs ul li[active]:nth-child(3) ~ li:last-child {
-          --flavour: ${CONFIG.palette.red};
+          --flavour: ${CONFIG.palette.peach};
       }
 
       #tabs ul li[active]:nth-child(4) ~ li:last-child {
-          --flavour: ${CONFIG.palette.blue};
+          --flavour: ${CONFIG.palette.rosewater};
       }
 
       #tabs ul li[active]:nth-child(5) ~ li:last-child {
-          --flavour: ${CONFIG.palette.mauve};
+          --flavour: ${CONFIG.palette.pink};
+      }
+
+      #tabs ul li[active]:nth-child(6) ~ li:last-child {
+          --flavour: ${CONFIG.palette.blue};
       }
 
       .widgets {
@@ -154,10 +142,6 @@ class Statusbar extends Component {
           padding: 0 1em;
       }
 
-      .widget.time-widget {
-          min-width: max-content;
-      }
-
       .widget:first-child {
           padding-left: 2em;
       }
@@ -168,6 +152,7 @@ class Statusbar extends Component {
 
       .widget:hover {
           cursor: pointer;
+          border-radius: 10px;
           background: rgba(255, 255, 255, .05);
       }
 
@@ -199,7 +184,7 @@ class Statusbar extends Component {
           background: ${CONFIG.palette.mantle};
           color: ${CONFIG.palette.green};
           cursor: pointer;
-          border-radius: 5px 15px 15px 5px;
+          border-radius: 10px;
       }
 
       .fastlink:hover {
@@ -207,34 +192,27 @@ class Statusbar extends Component {
       }
 
       .fastlink-icon {
-        width: 70%;
+        width: 50%;
       }
     `;
   }
 
-  /**
-   * Generates HTML template for the statusbar component
-   * @returns {string} HTML template with tabs and widgets
-   */
   template() {
     return `
         <div id="tabs">
             <cols>
                 <button class="+ fastlink">
-                  <img class="fastlink-icon" src="src/img/favicon.png"/>
+                  <img class="fastlink-icon" src="src/img/logo.png"/>
                 </button>
                 <ul class="- indicator"></ul>
                 <div class="+ widgets col-end">
-                    <current-time class="+ widget time-widget"></current-time>
+                    <current-time class="+ widget"></current-time>
                     <weather-forecast class="+ widget weather"></weather-forecast>
                 </div>
             </cols>
         </div>`;
   }
 
-  /**
-   * Sets up event listeners for tab interactions and navigation
-   */
   setEvents() {
     this.refs.tabs.forEach((tab) => (tab.onclick = ({ target }) => this.handleTabChange(target)));
 
@@ -247,39 +225,24 @@ class Statusbar extends Component {
       }
     };
 
-    // Store current tab index before page unload
     if (CONFIG.openLastVisitedTab) {
       window.onbeforeunload = () => this.saveCurrentTab();
     }
   }
 
-  /**
-   * Saves the currently active tab index to localStorage
-   */
   saveCurrentTab() {
     localStorage.lastVisitedTab = this.currentTabIndex;
   }
 
-  /**
-   * Opens the last visited tab from localStorage
-   */
   openLastVisitedTab() {
     if (!CONFIG.openLastVisitedTab) return;
     this.activateByKey(localStorage.lastVisitedTab);
   }
 
-  /**
-   * Handles tab change events
-   * @param {Element} tab - The clicked tab element
-   */
   handleTabChange(tab) {
     this.activateByKey(Number(tab.getAttribute("tab-index")));
   }
 
-  /**
-   * Handles mouse wheel scrolling for tab navigation
-   * @param {WheelEvent} event - The wheel event object
-   */
   handleWheelScroll(event) {
     if (!event) return;
 
@@ -287,26 +250,15 @@ class Statusbar extends Component {
 
     if (target.shadow && target.shadow.activeElement) return;
 
-    // Find currently active tab
-    let activeTab = -1;
-    this.refs.tabs.forEach((tab, index) => {
-      if (tab.getAttribute("active") === "") {
-        activeTab = index;
-      }
-    });
+    let activeTab = this.getActiveTab();
 
-    // Navigate to next or previous tab based on wheel direction
-    if (wheelDelta > 0) {
+    if (wheelDelta < 0) {
       this.activateByKey((activeTab + 1) % (this.refs.tabs.length - 1));
     } else {
       this.activateByKey(activeTab - 1 < 0 ? this.refs.tabs.length - 2 : activeTab - 1);
     }
   }
 
-  /**
-   * Handles keyboard shortcuts for tab navigation
-   * @param {KeyboardEvent} event - The keyboard event object
-   */
   handleKeyPress(event) {
     if (!event) return;
 
@@ -314,16 +266,20 @@ class Statusbar extends Component {
 
     if (target.shadow && target.shadow.activeElement) return;
 
-    // Activate tab by number key (1-5)
     if (Number.isInteger(parseInt(key)) && key <= this.externalRefs.categories.length) {
       this.activateByKey(key - 1);
     }
+
+    let activeTab = this.getActiveTab();
+    key = key.toLowerCase();
+
+    if (key === "arrowright" || key === "l") {
+      this.activateByKey((activeTab + 1) % (this.refs.tabs.length - 1));
+    } else if (key === "arrowleft" || key === "h") {
+      this.activateByKey(activeTab - 1 < 0 ? this.refs.tabs.length - 2 : activeTab - 1);
+    }
   }
 
-  /**
-   * Activates a tab by its index
-   * @param {number} key - The tab index to activate
-   */
   activateByKey(key) {
     if (key < 0) return;
     this.currentTabIndex = key;
@@ -332,9 +288,6 @@ class Statusbar extends Component {
     this.activate(this.externalRefs.categories, this.externalRefs.categories[key]);
   }
 
-  /**
-   * Creates tab elements based on categories count
-   */
   createTabs() {
     const categoriesCount = this.externalRefs.categories.length;
 
@@ -343,24 +296,26 @@ class Statusbar extends Component {
     }
   }
 
-  /**
-   * Activates a specific item by setting active attribute
-   * @param {NodeList} target - Collection of elements to process
-   * @param {Element} item - The specific item to activate
-   */
   activate(target, item) {
     target.forEach((i) => i.removeAttribute("active"));
     item.setAttribute("active", "");
   }
 
-  /**
-   * Component lifecycle callback when element is connected to DOM
-   */
   connectedCallback() {
     this.render().then(() => {
       this.createTabs();
       this.setEvents();
       this.openLastVisitedTab();
     });
+  }
+
+  getActiveTab() {
+    let activeTab = -1;
+    this.refs.tabs.forEach((tab, index) => {
+      if (tab.getAttribute("active") === "") {
+        activeTab = index;
+      }
+    });
+    return activeTab;
   }
 }
