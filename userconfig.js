@@ -24,9 +24,9 @@ const default_config = {
           name: "media/rrss",
           links: [
             {
-              name: "must",
-              url: "https://mustapp.com/",
-              icon: "device-tv",
+              name: "tools",
+              url: "https://terminaltrove.com/new/",
+              icon: "terminal",
               icon_color: palette.green,
             },
             {
