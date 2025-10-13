@@ -1,5 +1,5 @@
 start_directory: ~/dev/projects/startpage
-session_name: startpage
+session_name: Startpage
 windows:
   - window_name: editor
     panes:
