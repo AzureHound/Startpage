@@ -159,19 +159,19 @@ const default_config = {
           links: [
             {
               name: "homarr",
-              url: "http://192.168.29.101:7575",
+              url: "http://10.10.0.4:7575",
               icon: "brand-docker",
               icon_color: palette.green,
             },
             {
               name: "truenas",
-              url: "http://192.168.29.100",
+              url: "http://10.10.0.5",
               icon: "server-2",
               icon_color: palette.peach,
             },
             {
               name: "syncthing",
-              url: "https://192.168.29.101:8384",
+              url: "https://10.10.0.4:8384",
               icon: "refresh",
               icon_color: palette.red,
             },
@@ -183,19 +183,19 @@ const default_config = {
             },
             {
               name: "immich",
-              url: "http://192.168.29.100:30041",
+              url: "http://10.10.0.5:30041",
               icon: "photo",
               icon_color: palette.mauve,
             },
             {
               name: "jellyfin",
-              url: "http://192.168.29.100:8096",
+              url: "http://10.10.0.5:8096",
               icon: "movie",
               icon_color: palette.sky,
             },
             {
               name: "navidrome",
-              url: "http://192.168.29.101:4533",
+              url: "http://10.10.0.4:4533",
               icon: "disc",
               icon_color: palette.lavender,
             },
