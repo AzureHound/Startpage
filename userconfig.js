@@ -752,7 +752,7 @@ const default_config = {
       background_url: "src/img/banners/tokyo.png",
       categories: [
         {
-          name: "Hardware",
+          name: "Network",
           links: [
             {
               name: "router",
@@ -772,29 +772,11 @@ const default_config = {
               icon: "wifi",
               icon_color: palette.sapphire,
             },
-            {
-              name: "truenas",
-              url: "http://10.10.0.5",
-              icon: "server-2",
-              icon_color: palette.blue,
-            },
-            {
-              name: "tp-link",
-              url: "https://192.168.29.10:9000",
-              icon: "wifi",
-              icon_color: palette.sapphire,
-            },
           ],
         },
         {
           name: "Services",
           links: [
-            {
-              name: "pihole",
-              url: "https://192.168.29.10/admin/login",
-              icon: "network",
-              icon_color: palette.red,
-            },
             {
               name: "technitium",
               url: "http://10.10.0.4:5380",
@@ -884,6 +866,12 @@ const default_config = {
           name: "TrueNAS",
           links: [
             {
+              name: "truenas",
+              url: "http://10.10.0.5",
+              icon: "server-2",
+              icon_color: palette.blue,
+            },
+            {
               name: "syncthing",
               url: "https://10.10.0.5:20910",
               icon: "refresh",
@@ -908,6 +896,23 @@ const default_config = {
               icon_color: palette.maroon,
             },
           ],
+        },
+        {
+          name: "Subnet",
+          links: [
+            {
+              name: "pihole",
+              url: "https://192.168.29.10/admin/login",
+              icon: "network",
+              icon_color: palette.red,
+            },
+            {
+              name: "tp-link",
+              url: "https://192.168.29.10:9000",
+              icon: "wifi",
+              icon_color: palette.sapphire,
+            },
+          ]
         },
       ],
     },
