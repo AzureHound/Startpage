@@ -867,7 +867,7 @@ const default_config = {
           links: [
             {
               name: "truenas",
-              url: "http://10.10.0.5",
+              url: "https://10.10.0.5",
               icon: "server-2",
               icon_color: palette.blue,
             },
@@ -908,7 +908,7 @@ const default_config = {
             },
             {
               name: "tp-link",
-              url: "https://192.168.29.10:9000",
+              url: "https://192.168.29.100",
               icon: "wifi",
               icon_color: palette.sapphire,
             },
