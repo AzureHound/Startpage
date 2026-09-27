@@ -814,6 +814,12 @@ const default_config = {
               icon_color: palette.blue,
             },
             {
+              name: "opencloud",
+              url: "https://opencloud.softshell.duckdns.org",
+              icon: "cloud",
+              icon_color: palette.mauve,
+            },
+            {
               name: "filebrowser",
               url: "http://10.10.0.4:8081",
               icon: "folder-open",
